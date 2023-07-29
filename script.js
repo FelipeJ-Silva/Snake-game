@@ -1,11 +1,20 @@
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 
+const score = document.querySelector(".score--value")
+const finalScore = document.querySelector(".final--score > span")
+const menu = document.querySelector(".menu-screen")
+const buttonPlay = document.querySelector(".btn-play")
+
 const audio = new Audio('assets/audio.mp3')
 
 const size = 30
 
 const snake = [{ x: 270, y: 240 }]
+
+const incrementScore = () => {
+    score.innerText = + score.innerText + 10
+}
 
 const randomNumber = (min, max) => {
     return Math.round(Math.random() * (max - min) + min)
@@ -84,7 +93,7 @@ const moveSnake = () => {
 const drawGrid = () => {
 
     ctx.lineWidth = 1
-    ctx.strokeStyle = "yellow"
+    ctx.strokeStyle = "#191929"
     
     for (let i = 30; i < canvas.width; i += 30) {
         ctx.beginPath()
@@ -105,6 +114,7 @@ const chackEat = () => {
     const head = snake[snake.length - 1]
 
     if (head.x == food.x && head.y == food.y) {
+        incrementScore()
         snake.push(head)
         audio.play()
 
@@ -127,7 +137,8 @@ const checkCollision = () => {
     const canvasLimit = canvas.width - size
     const neckIndex = snake.length - 2
 
-    const wallCollision = head.x < 0 || head.x > canvasLimit || head.y < 0 || head.y > canvasLimit
+    const wallCollision =
+        head.x < 0 || head.x > canvasLimit || head.y < 0 || head.y > canvasLimit
 
     const selfCollision = snake.find((position, index) => {
         return index < neckIndex && position.x == head.x && position.y == head.y
@@ -140,6 +151,11 @@ const checkCollision = () => {
 
 const gameOver = () => {
     direction = undefined
+
+    menu.style.display = "flex"
+    finalScore.innerText = score.innerText
+    canvas.style.filter = "blur(2px)"
+
 }
 
 const gameLoop = () => {
@@ -179,4 +195,12 @@ document.addEventListener("keydown", ({ key }) => {
 
     
 
+})
+
+buttonPlay.addEventListener("click", () => {
+    score.innerText = "00"
+    menu.style.display = "none"
+    canvas.style.filter = "none"
+
+    snake = [{ x: 270, y: 240 }]
 })

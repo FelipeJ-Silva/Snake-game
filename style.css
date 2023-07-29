@@ -27,7 +27,6 @@ canvas {
     flex-direction: column;
     align-items: center;
     font-size: 1.8rem;
-    margin-top: 10px;
 }
 
 .score--value {
@@ -37,11 +36,12 @@ canvas {
     margin-top: -10px;
 }
 
-.menu--screen {
+.menu-screen {
     position: absolute;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
+    z-index: 1;   
 }
 
 .game-over {
