@@ -2,7 +2,7 @@ const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 
 const score = document.querySelector(".score--value")
-const finalScore = document.querySelector(".final--score > span")
+const finalScore = document.querySelector(".final-score > span")
 const menu = document.querySelector(".menu-screen")
 const buttonPlay = document.querySelector(".btn-play")
 
@@ -10,7 +10,9 @@ const audio = new Audio('assets/audio.mp3')
 
 const size = 30
 
-const snake = [{ x: 270, y: 240 }]
+const initialPosition = { x: 270, y: 240 }
+
+let snake = [{ x: 270, y: 240 }]
 
 const incrementScore = () => {
     score.innerText = + score.innerText + 10
@@ -26,9 +28,9 @@ const randomPosition = () => {
 }
 
 const randomColor = () => {
-    const red = randomNumber(0,255)
-    const green = randomNumber(0,255)
-    const blue = randomNumber(0,255)
+    const red = randomNumber(0, 255)
+    const green = randomNumber(0, 255)
+    const blue = randomNumber(0, 255)
 
     return `rgb(${red}, ${green}, ${blue})`
 }
@@ -56,10 +58,10 @@ const drawFood = () => {
 
 const drawSnake = () => {
     ctx.fillStyle = "#ddd"
-    
+
     snake.forEach((position, index) => {
 
-        if (index == snake.length - 1 ) {
+        if (index == snake.length - 1) {
             ctx.fillStyle = "white"
         }
         ctx.fillRect(position.x, position.y, size, size)
@@ -80,10 +82,10 @@ const moveSnake = () => {
     }
 
     if (direction == "down") {
-        snake.push({ x: head.x , y: head.y + size})
+        snake.push({ x: head.x, y: head.y + size })
     }
     if (direction == "up") {
-        snake.push({ x: head.x , y: head.y - size})
+        snake.push({ x: head.x, y: head.y - size })
     }
 
     snake.shift()
@@ -94,7 +96,7 @@ const drawGrid = () => {
 
     ctx.lineWidth = 1
     ctx.strokeStyle = "#191929"
-    
+
     for (let i = 30; i < canvas.width; i += 30) {
         ctx.beginPath()
         ctx.lineTo(i, 0)
@@ -121,7 +123,7 @@ const chackEat = () => {
         let x = randomPosition()
         let y = randomPosition()
 
-        while (snake.find((position) => position.x == x && position.y ==y)) {
+        while (snake.find((position) => position.x == x && position.y == y)) {
             x = randomPosition()
             y = randomPosition()
         }
@@ -177,7 +179,7 @@ const gameLoop = () => {
 gameLoop()
 
 document.addEventListener("keydown", ({ key }) => {
-    if (key == "ArrowRight" && direction != "left" ) {
+    if (key == "ArrowRight" && direction != "left") {
         direction = "right"
     }
 
@@ -193,7 +195,7 @@ document.addEventListener("keydown", ({ key }) => {
         direction = "up"
     }
 
-    
+
 
 })
 
@@ -202,5 +204,5 @@ buttonPlay.addEventListener("click", () => {
     menu.style.display = "none"
     canvas.style.filter = "none"
 
-    snake = [{ x: 270, y: 240 }]
+    snake = [initialPosition]
 })
